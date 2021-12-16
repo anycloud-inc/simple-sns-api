@@ -1,0 +1,33 @@
+version: "3"
+services:
+  api:
+    image: node:13.13.0
+    ports:
+      - "${API_PORT:-3000}:3000"
+    volumes:
+      - simple-sns-api-sync:/usr/local/simple-sns-api:nocopy
+    working_dir: /usr/local/simple-sns-api
+    tty: true
+    entrypoint: "/bin/sh -c 'yarn install; yarn typeorm migration:run; yarn dev'"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.22
+    platform: linux/x86_64
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: simple_sns
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - sns-app-mysql-data:/var/lib/mysql
+      - ./docker/db:/docker-entrypoint-initdb.d
+
+volumes:
+  sns-app-mysql-data:
+  sns-app-api-sync:
+    external: true

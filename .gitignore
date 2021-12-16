@@ -1,0 +1,4 @@
+.docker-sync
+.DS_STORE
+.unison*
+.vscode

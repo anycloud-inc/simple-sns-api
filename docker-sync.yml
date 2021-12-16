@@ -1,0 +1,7 @@
+version: "2"
+
+syncs:
+  sns-app-api-sync:
+    src: "./simple-sns-api/"
+    sync_strategy: "native_osx"
+    sync_excludes: [".git", ".gitignore"]
