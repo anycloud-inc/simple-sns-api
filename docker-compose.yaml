@@ -1,7 +1,7 @@
 version: "3"
 services:
   api:
-    image: node:13.13.0
+    image: node:14.15.0
     ports:
       - "${API_PORT:-3000}:3000"
     volumes:
@@ -24,10 +24,10 @@ services:
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - sns-app-mysql-data:/var/lib/mysql
+      - simple-sns-mysql-data:/var/lib/mysql
       - ./docker/db:/docker-entrypoint-initdb.d
 
 volumes:
-  sns-app-mysql-data:
-  sns-app-api-sync:
+  simple-sns-mysql-data:
+  simple-sns-api-sync:
     external: true

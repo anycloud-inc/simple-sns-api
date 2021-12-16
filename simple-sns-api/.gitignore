@@ -1,0 +1,12 @@
+node_modules/
+dist/
+tmp/
+uploads/
+*.log
+.repl_history
+
+# 環境変数
+.env
+
+# gcp
+service-account.json
