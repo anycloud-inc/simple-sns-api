@@ -1,5 +1,5 @@
 require('dotenv').config()
-
+console.log(111)
 import * as express from 'express'
 import 'reflect-metadata'
 import * as morgan from 'morgan'
@@ -13,6 +13,7 @@ import router from './router'
 import * as dayjs from 'dayjs'
 import * as timezone from 'dayjs/plugin/timezone'
 import * as utc from 'dayjs/plugin/utc'
+import setCurrentUser from './middleware/set-current-user'
 
 const app = express()
 const port = Number(process.env.PORT) || 3000
@@ -27,6 +28,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(camelizeQuery)
 app.use(logRequest)
+app.use(setCurrentUser)
 app.use(morgan('dev') as any)
 if (process.env.UPLOAD_TO_CLOUD !== '1') {
   app.use('/uploads', express.static('uploads'))

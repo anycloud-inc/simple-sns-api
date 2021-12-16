@@ -23,6 +23,7 @@ export class User {
   password!: string
 
   @Column()
+  @IsNotEmpty()
   name!: string
 
   @Column({ nullable: true })
