@@ -1,5 +1,4 @@
 import * as express from 'express'
-import { parseParameters } from 'src/middleware/parse-parameters'
 
 type Method = 'get' | 'post' | 'put' | 'patch' | 'delete'
 
@@ -16,11 +15,7 @@ export const useController = (
   const instance = new controller()
   instance._routes.forEach((route: RouteItem) => {
     const path = instance._basePath + route.path
-    router[route.method](
-      path,
-      parseParameters(),
-      (instance as any)[route.action].bind(instance)
-    )
+    router[route.method](path, (instance as any)[route.action].bind(instance))
   })
 }
 

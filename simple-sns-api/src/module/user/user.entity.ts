@@ -4,9 +4,11 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { Post } from '../post/post.entity'
 
 @Entity()
 export class User {
@@ -28,6 +30,9 @@ export class User {
 
   @Column({ nullable: true })
   iconImageUrl?: string
+
+  @OneToMany(_ => Post, obj => obj.user)
+  posts?: Post[]
 
   @CreateDateColumn()
   readonly createdAt?: Date

@@ -3,6 +3,7 @@ import * as express from 'express'
 import { useController } from './lib/controller'
 import { AccountController } from './module/account/account.controller'
 import { AuthController } from './module/auth/auth.controller'
+import { PostController } from './module/post/post.controller'
 
 const router = express.Router()
 
@@ -18,5 +19,6 @@ router.get('/routes', (req, res, next) => {
 
 useController(router, AccountController)
 useController(router, AuthController)
+useController(router, PostController)
 
 export default router
