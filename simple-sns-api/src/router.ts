@@ -4,6 +4,7 @@ import { useController } from './lib/controller'
 import { AccountController } from './module/account/account.controller'
 import { AuthController } from './module/auth/auth.controller'
 import { PostController } from './module/post/post.controller'
+import { RoomController } from './module/room/room.controller'
 
 const router = express.Router()
 
@@ -20,5 +21,6 @@ router.get('/routes', (req, res, next) => {
 useController(router, AccountController)
 useController(router, AuthController)
 useController(router, PostController)
+useController(router, RoomController)
 
 export default router
