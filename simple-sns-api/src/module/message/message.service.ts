@@ -1,5 +1,16 @@
+import { validateOrFail } from 'src/lib/validate'
 import { getRepository } from 'typeorm'
 import { Message } from './message.entity'
+
+interface CreateParams {
+  content: string
+  roomId: string
+}
+
+interface CreateViaPostParams {
+  content: string
+  postId: number
+}
 
 export const messageService = {
   toOneContents() {
@@ -24,5 +35,21 @@ export const messageService = {
     )
 
     return messages
+  },
+
+  async createMessage(userId: number, params: CreateParams): Promise<Message> {
+    const repo = getRepository(Message)
+    let message = repo.create({ ...params, userId })
+    await validateOrFail(message)
+    message = await repo.save(message)
+    message = await messageService.findOne(message.id!)
+    return message
+  },
+
+  async findOne(messageId: number): Promise<Message> {
+    const message = await getRepository(Message).findOneOrFail(messageId, {
+      relations: this.toOneContents(),
+    })
+    return message
   },
 }
