@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 import { authService } from './auth.service'
 import { Controller, Delete, Post } from 'src/lib/controller'
 import { accountSerializer } from '../account/account.serializer'
-import { getRepository } from 'typeorm'
-import { accountService } from '../account/account.service'
 import { LoginError } from 'src/error'
 import { badRequest } from 'boom'
 
