@@ -12,19 +12,16 @@ export const roomService = {
       getRepository(RoomUser).create({ userId })
     )
     await validateOrFail(room)
-    console.log(room)
     return await repo.save(room)
   },
 
   async findRooms(userId: number): Promise<Room[]> {
     const roomUsers = await getRepository(RoomUser).find({ userId })
-    console.log(roomUsers)
     if (roomUsers.length === 0) return []
 
     const latestMessages = await messageService.findLatestMessages(
       roomUsers.map(x => x.roomId)
     )
-    console.log(latestMessages)
     if (latestMessages.length === 0) return []
 
     const rooms = await getRepository(Room)
@@ -34,8 +31,6 @@ export const roomService = {
       .where('room.id IN (:roomIds)', {
         roomIds: roomUsers.map(x => x.roomId),
       })
-      .andWhere('room.deletedAt IS NULL')
-      .andWhere('roomUser.deletedAt IS NULL')
       .orderBy(
         `field(room.id, ${latestMessages.map(x => `"${x.roomId}"`).join(',')})`
       )
