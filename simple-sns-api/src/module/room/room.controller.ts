@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { Auth } from 'src/lib/auth'
-import { Controller, Get, Post } from 'src/lib/controller'
+import { Controller, Get, Patch, Post } from 'src/lib/controller'
+import { roomPolicy } from './room.policy'
 import { roomSerializer } from './room.serializer'
 import { roomService } from './room.service'
 
@@ -19,6 +20,18 @@ export class RoomController {
     }
   }
 
+  @Get('/:id')
+  @Auth
+  async show(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      await roomPolicy.showableOrFail(req.params.id, req.currentUser.id!)
+      const room = await roomService.findOne(req.params.id)
+      res.json({ room: roomSerializer.build(room) })
+    } catch (e) {
+      next(e)
+    }
+  }
+
   @Post()
   @Auth
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -27,6 +40,24 @@ export class RoomController {
       const room =
         (await roomService.findOneByUserIds(userIds)) ||
         (await roomService.createRoom(userIds))
+      res.json({ room: roomSerializer.build(room) })
+    } catch (e) {
+      next(e)
+    }
+  }
+
+  @Patch('/:id/read')
+  @Auth
+  async markAsRead(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const room = await roomService.markAsRead(
+        req.params.id,
+        req.currentUser.id!
+      )
       res.json({ room: roomSerializer.build(room) })
     } catch (e) {
       next(e)
