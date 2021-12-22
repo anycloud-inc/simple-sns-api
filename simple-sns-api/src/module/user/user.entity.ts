@@ -8,7 +8,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { Message } from '../message/message.entity'
 import { Post } from '../post/post.entity'
+import { RoomUser } from '../room-user/room-user.entity'
 
 @Entity()
 export class User {
@@ -33,6 +35,12 @@ export class User {
 
   @OneToMany(_ => Post, obj => obj.user)
   posts?: Post[]
+
+  @OneToMany(() => RoomUser, obj => obj.user, { cascade: true })
+  roomUsers!: RoomUser[]
+
+  @OneToMany(_ => Message, obj => obj.user, { cascade: true })
+  messages?: Message[]
 
   @CreateDateColumn()
   readonly createdAt?: Date
