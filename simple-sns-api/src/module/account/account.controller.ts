@@ -64,7 +64,6 @@ export class AccountController {
       const account = await accountService.saveAccount(req.currentUser, {
         name: req.body.name,
         email: req.body.email,
-        iconImageUrl: req.body.iconImageUrl,
       })
       res.json({ user: accountSerializer.build(account) })
     } catch (e) {
