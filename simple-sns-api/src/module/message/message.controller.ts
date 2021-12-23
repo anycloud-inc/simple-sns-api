@@ -30,8 +30,6 @@ export class MessageController {
   @Auth
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      console.log(req.currentUser.id)
-      console.log(req.body.roomId)
       const message = await messageService.createMessage(req.currentUser.id!, {
         roomId: req.body.roomId,
         content: req.body.content,
