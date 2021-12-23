@@ -40,4 +40,25 @@ export class MessageController {
       next(e)
     }
   }
+
+  @Post('/via_post')
+  @Auth
+  async createViaPost(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const message = await messageService.createMessageViaPost(
+        req.currentUser.id!,
+        {
+          postId: req.body.postId,
+          content: req.body.content,
+        }
+      )
+      res.json({ message: messageSerializer.build(message) })
+    } catch (e) {
+      next(e)
+    }
+  }
 }

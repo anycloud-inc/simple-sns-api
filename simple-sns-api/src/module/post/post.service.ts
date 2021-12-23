@@ -37,6 +37,11 @@ export const postService = {
     return post
   },
 
+  async getCreatorId(postId: number): Promise<number> {
+    const post = await this.findOneOrFail(postId)
+    return post.userId
+  },
+
   async createPost(userId: number, params: CreateParams) {
     const repo = getRepository(Post)
     let post = repo.create({
