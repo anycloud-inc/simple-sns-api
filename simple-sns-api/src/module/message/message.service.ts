@@ -1,3 +1,8 @@
+import {
+  addPagination,
+  leftJoinRelations,
+  PaginationParams,
+} from 'src/lib/typeorm-helper'
 import { validateOrFail } from 'src/lib/validate'
 import { getRepository } from 'typeorm'
 import { Message } from './message.entity'
@@ -51,5 +56,18 @@ export const messageService = {
       relations: this.toOneContents(),
     })
     return message
+  },
+
+  async findMessages(
+    roomId: string,
+    pagination: PaginationParams
+  ): Promise<Message[]> {
+    let qb = getRepository(Message).createQueryBuilder('message')
+    qb = leftJoinRelations(qb, this.toOneContents())
+    addPagination(qb, pagination)
+    const messages = await qb
+      .andWhere('message.roomId = :roomId', { roomId })
+      .getMany()
+    return messages
   },
 }
