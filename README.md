@@ -34,9 +34,4 @@ cp api/.env.sample api/.env
 # Run migration
 docker-compose exec api yarn typeorm migration:run
 
-# Import seed data
-docker-compose exec api yarn seed
-
-# Run server
-docker-compose exec api yarn dev
 ```
