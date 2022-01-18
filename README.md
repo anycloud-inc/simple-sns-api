@@ -15,8 +15,6 @@ sudo gem install docker-sync
 # Start containers
 make docker-up
 
-# ログの確認
-make docker-log
 ```
 
 ※ `Install unison for you? [y/N]` の無限ループが生じた場合、`Ctrl + C`してからリトライするとループがなくなる。
@@ -30,7 +28,7 @@ make docker-log
 docker-compose exec api yarn install
 
 # Copy Environment Variable （必要に応じて.envの中身を変更）
-cp api/.env.sample api/.env
+cp simple-sns-api/.env.sample simple-sns-api/.env
 
 # Run migration
 docker-compose exec api yarn typeorm migration:run
