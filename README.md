@@ -9,7 +9,7 @@ https://hub.docker.com/editions/community/docker-ce-desktop-mac/
 
 ```sh
 # Install docker-sync
-gem install docker-sync
+sudo gem install docker-sync
 
 # Start containers
 make docker-up
