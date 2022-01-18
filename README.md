@@ -9,6 +9,9 @@ Docker for Macを下記からインストール
 https://hub.docker.com/editions/community/docker-ce-desktop-mac/
 
 ```sh
+# Copy Environment Variable （必要に応じて.envの中身を変更）
+cp simple-sns-api/.env.sample simple-sns-api/.env
+
 # Install docker-sync
 sudo gem install docker-sync
 
@@ -27,10 +30,10 @@ make docker-up
 # Install dependencies
 docker-compose exec api yarn install
 
-# Copy Environment Variable （必要に応じて.envの中身を変更）
-cp simple-sns-api/.env.sample simple-sns-api/.env
-
 # Run migration
 docker-compose exec api yarn typeorm migration:run
-
 ```
+
+http://localhost:3000/
+にアクセスして、OKと表示されれば環境構築が完了
+
