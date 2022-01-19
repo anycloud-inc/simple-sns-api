@@ -9,6 +9,12 @@ Docker for Macを下記からインストール
 https://hub.docker.com/editions/community/docker-ce-desktop-mac/
 
 ```sh
+# クローン
+git clone https://github.com/anycloud-inc/simple-sns.git
+or 
+git clone git@github.com:anycloud-inc/simple-sns.git
+
+# リポジトリに移動
 cd simple-sns
 
 # Copy Environment Variable （必要に応じて.envの中身を変更）
