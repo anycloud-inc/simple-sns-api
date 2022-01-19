@@ -9,6 +9,8 @@ Docker for Macを下記からインストール
 https://hub.docker.com/editions/community/docker-ce-desktop-mac/
 
 ```sh
+cd simple-sns
+
 # Copy Environment Variable （必要に応じて.envの中身を変更）
 cp simple-sns-api/.env.sample simple-sns-api/.env
 
