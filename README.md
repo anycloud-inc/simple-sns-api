@@ -17,7 +17,7 @@ git clone git@github.com:anycloud-inc/simple-sns.git
 # リポジトリに移動
 cd simple-sns
 
-# Copy Environment Variable （必要に応じて.envの中身を変更）
+# Copy Environment Variable
 cp simple-sns-api/.env.sample simple-sns-api/.env
 
 # Install docker-sync
