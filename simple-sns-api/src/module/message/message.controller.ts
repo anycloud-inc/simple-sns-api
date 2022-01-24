@@ -5,15 +5,27 @@ import { getPaginationParams } from 'src/lib/request-utils'
 import { roomPolicy } from '../room/room.policy'
 import { messageSerializer } from './message.serializer'
 import { messageService } from './message.service'
+import * as openapi from 'simple-sns-openapi-server-interface/outputs/openapi_server_interface/ts/types'
 
 @Controller('/messages')
 export class MessageController {
   @Get()
   @Auth
-  async index(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async index(
+    req: Request<
+      {},
+      {},
+      {},
+      openapi.operations['listMessages']['parameters']['query']
+    >,
+    res: Response<
+      openapi.components['responses']['ResponseMessageList']['content']['application/json']
+    >,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const pagination = getPaginationParams(req.query)
-      const roomId = req.query.roomId as string
+      const roomId = req.query.roomId
 
       await roomPolicy.showableOrFail(roomId, req.currentUser.id!)
 
@@ -28,7 +40,17 @@ export class MessageController {
 
   @Post()
   @Auth
-  async create(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async create(
+    req: Request<
+      {},
+      {},
+      openapi.operations['createMessage']['requestBody']['content']['application/json']
+    >,
+    res: Response<
+      openapi.components['responses']['ResponseMessage']['content']['application/json']
+    >,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const message = await messageService.createMessage(req.currentUser.id!, {
         roomId: req.body.roomId,
@@ -44,8 +66,14 @@ export class MessageController {
   @Post('/via_post')
   @Auth
   async createViaPost(
-    req: Request,
-    res: Response,
+    req: Request<
+      {},
+      {},
+      openapi.operations['createMessageViaPost']['requestBody']['content']['application/json']
+    >,
+    res: Response<
+      openapi.components['responses']['ResponseMessage']['content']['application/json']
+    >,
     next: NextFunction
   ): Promise<void> {
     try {

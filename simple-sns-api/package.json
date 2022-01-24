@@ -52,6 +52,7 @@
     "ts-jest": "^26.5.6",
     "ts-node": "^9.1.1",
     "ts-node-dev": "1.0.0-pre.44",
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.3",
+    "simple-sns-openapi-server-interface": "git+https://github.com/anycloud-inc/simple-sns-openapi.git"
   }
 }
