@@ -1,4 +1,8 @@
-import { addPagination, PaginationParams } from 'src/lib/typeorm-helper'
+import {
+  addPagination,
+  loadRelations,
+  PaginationParams,
+} from 'src/lib/typeorm-helper'
 import { validateOrFail } from 'src/lib/validate'
 import {
   EntityManager,
@@ -28,7 +32,7 @@ export const postService = {
     if (params.filter) qb = this._addSearchFilter(qb, params.filter)
     qb = addPagination(qb, params.pagination)
     let posts = await qb.getMany()
-
+    await loadRelations(posts, ['user'])
     return posts
   },
 
