@@ -38,6 +38,7 @@ export const postService = {
 
   async findOneOrFail(id: number): Promise<Post> {
     const post = await getRepository(Post).findOneOrFail(id, {})
+    await loadRelations([post], ['user'])
     return post
   },
 
