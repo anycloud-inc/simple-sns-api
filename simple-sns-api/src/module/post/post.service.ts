@@ -18,7 +18,7 @@ interface CreateParams {
 
 interface FindParams {
   pagination?: PaginationParams
-  filter: FilterParams
+  filter?: FilterParams
 }
 
 export interface FilterParams {
