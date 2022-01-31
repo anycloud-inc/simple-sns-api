@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
 import { Auth } from 'src/lib/auth'
-import { Controller, Get, Patch, Post } from 'src/lib/controller'
+import { Controller, Get, Post } from 'src/lib/controller'
 import { roomPolicy } from './room.policy'
 import { roomSerializer } from './room.serializer'
 import { roomService } from './room.service'
 import * as openapi from 'simple-sns-openapi-server-interface/outputs/openapi_server_interface/ts/types'
+import { loadRelations } from 'src/lib/typeorm-helper'
 
 @Controller('/rooms')
 export class RoomController {
@@ -63,26 +64,7 @@ export class RoomController {
       const room =
         (await roomService.findOneByUserIds(userIds)) ||
         (await roomService.createRoom(userIds))
-      res.json({ room: roomSerializer.build(room) })
-    } catch (e) {
-      next(e)
-    }
-  }
-
-  @Patch('/:id/read')
-  @Auth
-  async markAsRead(
-    req: Request<openapi.operations['findRoom']['parameters']['path']>,
-    res: Response<
-      openapi.paths['/rooms/{id}/read']['patch']['responses'][200]['content']['application/json']
-    >,
-    next: NextFunction
-  ): Promise<void> {
-    try {
-      const room = await roomService.markAsRead(
-        req.params.id,
-        req.currentUser.id!
-      )
+      await loadRelations([room], ['roomUsers', 'roomUsers.user'])
       res.json({ room: roomSerializer.build(room) })
     } catch (e) {
       next(e)

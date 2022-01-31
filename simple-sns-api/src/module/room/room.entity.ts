@@ -39,16 +39,6 @@ export class Room {
     return this.roomUsers?.map(x => x.user)
   }
 
-  readBy(user: User): boolean | undefined {
-    const roomUser = this.roomUsers?.find(x => x.userId == user.id)
-    if (this.latestMessage == null || roomUser == null) return undefined
-    return (
-      this.latestMessage?.userId == user.id ||
-      this.roomUsers?.find(x => x.userId == user.id)?.readAt! >=
-        this.latestMessage?.createdAt!
-    )
-  }
-
   userIds(): number[] | undefined {
     if (this.usersId) return this.usersId.split('-').map(x => parseInt(x))
   }

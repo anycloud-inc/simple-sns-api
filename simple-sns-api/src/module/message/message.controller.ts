@@ -56,7 +56,6 @@ export class MessageController {
         roomId: req.body.roomId,
         content: req.body.content,
       })
-
       res.json({ message: messageSerializer.build(message) })
     } catch (e) {
       next(e)

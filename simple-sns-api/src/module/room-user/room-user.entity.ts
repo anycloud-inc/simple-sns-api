@@ -24,9 +24,6 @@ export class RoomUser {
   @Column()
   roomId!: string
 
-  @Column('timestamp', { nullable: true })
-  readAt?: Date
-
   @ManyToOne(() => User, user => user.roomUsers)
   @Index()
   user!: User

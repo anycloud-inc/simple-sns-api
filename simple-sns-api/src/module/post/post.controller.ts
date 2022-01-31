@@ -71,10 +71,11 @@ export class PostController {
   ): Promise<void> {
     try {
       checkParameterOrFail(req.body, 'post')
-      const post = await postService.createPost(
+      let post = await postService.createPost(
         req.currentUser.id!,
         req.body.post
       )
+      post = await postService.findOneOrFail(post.id!)
 
       res.json({ post: postSerializer.build(post) })
     } catch (e) {
