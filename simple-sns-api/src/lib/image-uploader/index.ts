@@ -44,8 +44,7 @@ function uploadToLocal(
   return new Promise((resolve, reject) => {
     logger.log('Uploading file to local...')
     multer.single(FIELD_NAME)(req, res, (err: any) => {
-      if (err) return reject(err)
-
+      if (err != null || req.file == null) return reject(err)
       const baseURL = req.protocol + '://' + req.get('host')
       resolve({ fields: req.body, url: `${baseURL}/${req.file!.path}` })
     })
