@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import logger from 'src/lib/logger'
 import { mkdirSync } from 'fs'
 import generateHash from '../generate-hash'
+import AppError from 'src/error/AppError'
 
 const FIELD_NAME = 'file' // ※送る側のキー名と同じにすること
 
@@ -44,7 +45,9 @@ function uploadToLocal(
   return new Promise((resolve, reject) => {
     logger.log('Uploading file to local...')
     multer.single(FIELD_NAME)(req, res, (err: any) => {
-      if (err != null || req.file == null) return reject(err)
+      if (err != null) return reject(err)
+      if (req.file == null)
+        return reject(new AppError('fileを指定してください'))
       const baseURL = req.protocol + '://' + req.get('host')
       resolve({ fields: req.body, url: `${baseURL}/${req.file!.path}` })
     })
