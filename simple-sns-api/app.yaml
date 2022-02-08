@@ -1,0 +1,14 @@
+runtime: nodejs16
+instance_class: F4
+
+env_variables:
+  NODE_ENV: 'production'
+
+automatic_scaling:
+  target_cpu_utilization: 0.70
+  target_throughput_utilization: 0.70
+  max_concurrent_requests: 80
+  min_pending_latency: 10000ms
+  max_pending_latency: 15000ms
+  max_idle_instances: 1
+  min_idle_instances: 0
