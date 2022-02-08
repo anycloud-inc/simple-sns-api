@@ -10,5 +10,3 @@ uploads/
 
 # gcp
 service-account.json
-
-scripts/cloud_sql_proxy
