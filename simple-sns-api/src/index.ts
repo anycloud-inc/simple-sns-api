@@ -1,5 +1,4 @@
 require('dotenv').config()
-console.log(111)
 import * as express from 'express'
 import 'reflect-metadata'
 import * as morgan from 'morgan'
