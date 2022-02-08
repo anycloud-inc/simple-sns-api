@@ -12,10 +12,12 @@
     "typecheck": "tsc -p . --noEmit",
     "test": "jest --runInBand",
     "typeorm": "TS_NODE_TRANSPILE_ONLY=true yarn ts-node ./node_modules/typeorm/cli.js",
+    "gcp-build": "yarn install --force && tsc -p .",
     "start": "node -r ./tsconfig-paths-bootstrap.js dist/src/index.js",
     "console": "NODE_OPTIONS=--experimental-repl-await yarn ts-node console.ts"
   },
   "dependencies": {
+    "@google-cloud/storage": "^5.18.1",
     "argon2": "^0.27.1",
     "axios": "^0.21.1",
     "boom": "^7.3.0",
@@ -49,10 +51,10 @@
     "@types/open-graph-scraper": "^4.3.0",
     "jest": "^26.6.3",
     "prettier": "^2.2.1",
+    "simple-sns-openapi-server-interface": "git+https://github.com/anycloud-inc/simple-sns-openapi.git",
     "ts-jest": "^26.5.6",
     "ts-node": "^9.1.1",
     "ts-node-dev": "1.0.0-pre.44",
-    "typescript": "^4.1.3",
-    "simple-sns-openapi-server-interface": "git+https://github.com/anycloud-inc/simple-sns-openapi.git"
+    "typescript": "^4.1.3"
   }
 }

@@ -4,6 +4,7 @@ import logger from 'src/lib/logger'
 import { mkdirSync } from 'fs'
 import generateHash from '../generate-hash'
 import AppError from 'src/error/AppError'
+import CloudStorage from './cloud-storage'
 
 const FIELD_NAME = 'file' // ※送る側のキー名と同じにすること
 
@@ -11,7 +12,7 @@ export const upload =
   process.env.UPLOAD_TO_CLOUD === '1' ? uploadToCloud : uploadToLocal
 
 function getDestination(folderName: string) {
-  return `uploads/sns_app/${folderName}`
+  return `${folderName}`
 }
 
 function getFileName(file: Express.Multer.File) {
@@ -70,10 +71,18 @@ function uploadToCloud(
 
   return new Promise((resolve, reject) => {
     logger.log('Uploading file to cloud...')
+
     multer.single(FIELD_NAME)(req, res, (err: any) => {
       if (!req.file) return reject('File required')
       if (err) return reject('MulterError: ' + err)
-      // TODO: クラウドにアップロード
+      CloudStorage.upload(req.file.buffer, getFilePath(folderName, req.file))
+        .then(url =>
+          resolve({
+            fields: req.body,
+            url,
+          })
+        )
+        .catch(err => reject(err))
     })
   })
 }
