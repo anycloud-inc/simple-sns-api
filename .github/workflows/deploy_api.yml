@@ -40,7 +40,7 @@ jobs:
         run: |
           wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
           chmod +x cloud_sql_proxy
-          ./cloud_sql_proxy -instances=simp-340605:asia-northeast1:simple-sns=tcp:3326 &
+          ./cloud_sql_proxy -instances=simp-340605:asia-northeast1:simple-sns=tcp:3306 &
           sleep 3
 
       - name: Run Migration
