@@ -1,0 +1,76 @@
+name: Deploy API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "simple-sns-api/**"
+      - ".github/workflows/deploy_api.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [13.x]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: yarn install
+        run: yarn install
+        working-directory: ./simple-sns-api
+
+      - name: gcloud auth
+        run: |
+          echo $GCLOUD_SERVICE_KEY | base64 --decode > ${HOME}/gcloud-service-key.json
+          gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+        working-directory: ./simple-sns-api
+        env:
+          GCLOUD_SERVICE_KEY: ${{ secrets.GCLOUD_SERVICE_KEY }}
+
+      - name: Run Cloud SQL Proxy
+        run: |
+          wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+          chmod +x cloud_sql_proxy
+          ./cloud_sql_proxy -instances=sns-app-f1ade:asia-northeast1:sns-app=tcp:3306 &
+          sleep 3
+
+      - name: Run Migration
+        run: yarn typeorm migration:run
+        working-directory: ./simple-sns-api
+        env:
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: ${{ secrets.API_TYPEORM_DATABASE }}
+          DB_USERNAME: ${{ secrets.API_TYPEORM_USERNAME }}
+          DB_PASSWORD: ${{ secrets.API_TYPEORM_PASSWORD }}
+
+      - name: Remove old versions
+        run: gcloud app versions delete $(gcloud app versions list --project=sns-app-f1ade --service=default | sed 's/  */:/g' | cut -f 2 -d ":" | tail -n +2 | head -n -5 | tr "\n" " ") --project=sns-app-f1ade --quiet || true
+
+      - name: Deploy cron
+        run: gcloud app deploy cron.yaml --project=sns-app-f1ade --quiet
+        working-directory: ./simple-sns-api
+
+      - name: Generate .env
+        run: ./scripts/generate_env.sh
+        working-directory: ./simple-sns-api
+        env:
+          JWT_SECRET: ${{ secrets.API_JWT_SECRET }}
+          TYPEORM_HOST: ${{ secrets.API_TYPEORM_HOST }}
+          TYPEORM_DATABASE: ${{ secrets.API_TYPEORM_DATABASE }}
+          TYPEORM_USERNAME: ${{ secrets.API_TYPEORM_USERNAME }}
+          TYPEORM_PASSWORD: ${{ secrets.API_TYPEORM_PASSWORD }}
+
+      - name: Deploy api
+        run: ./scripts/deploy.sh
+        working-directory: ./simple-sns-api
+        env:
+          CI: true
