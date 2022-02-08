@@ -40,7 +40,7 @@ jobs:
         run: |
           wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
           chmod +x cloud_sql_proxy
-          ./cloud_sql_proxy -instances=sns-app-f1ade:asia-northeast1:sns-app=tcp:3306 &
+          ./cloud_sql_proxy -instances=simp-340605:asia-northeast1:simple-sns=tcp:3326 &
           sleep 3
 
       - name: Run Migration
@@ -53,11 +53,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.API_TYPEORM_PASSWORD }}
 
       - name: Remove old versions
-        run: gcloud app versions delete $(gcloud app versions list --project=sns-app-f1ade --service=default | sed 's/  */:/g' | cut -f 2 -d ":" | tail -n +2 | head -n -5 | tr "\n" " ") --project=sns-app-f1ade --quiet || true
-
-      - name: Deploy cron
-        run: gcloud app deploy cron.yaml --project=sns-app-f1ade --quiet
-        working-directory: ./simple-sns-api
+        run: gcloud app versions delete $(gcloud app versions list --project=simp-340605 --service=default | sed 's/  */:/g' | cut -f 2 -d ":" | tail -n +2 | head -n -5 | tr "\n" " ") --project=simp-340605 --quiet || true
 
       - name: Generate .env
         run: ./scripts/generate_env.sh
