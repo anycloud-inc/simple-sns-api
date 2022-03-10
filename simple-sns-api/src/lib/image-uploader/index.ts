@@ -5,6 +5,7 @@ import { mkdirSync } from 'fs'
 import generateHash from '../generate-hash'
 import AppError from 'src/error/AppError'
 import CloudStorage from './cloud-storage'
+import { LOCAL_UPLOADS_DIR } from 'src/constants'
 
 const FIELD_NAME = 'file' // ※送る側のキー名と同じにすること
 
@@ -29,7 +30,7 @@ function uploadToLocal(
   res: Response,
   folderName: string
 ): Promise<{ fields: any; url: string }> {
-  const destination = getDestination(folderName)
+  const destination = getDestination(LOCAL_UPLOADS_DIR + '/' + folderName)
   mkdirSync(destination, { recursive: true })
   const storage = Multer.diskStorage({
     destination,
