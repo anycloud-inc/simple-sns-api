@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { authService } from './auth.service'
-import { Controller, Delete, Post } from 'src/lib/controller'
+import { Controller, Delete, Post } from '@anycloud/express-controller'
 import { accountSerializer } from '../account/account.serializer'
 import { LoginError } from 'src/error'
 import { badRequest } from 'boom'

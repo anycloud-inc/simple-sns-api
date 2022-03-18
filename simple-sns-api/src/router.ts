@@ -1,6 +1,6 @@
+import { registerControllers } from '@anycloud/express-controller'
 import { notFound } from 'boom'
 import * as express from 'express'
-import { useController } from './lib/controller'
 import { AccountController } from './module/account/account.controller'
 import { AuthController } from './module/auth/auth.controller'
 import { MessageController } from './module/message/message.controller'
@@ -19,10 +19,15 @@ router.get('/routes', (req, res, next) => {
   )
 })
 
-useController(router, AccountController)
-useController(router, AuthController)
-useController(router, PostController)
-useController(router, RoomController)
-useController(router, MessageController)
+registerControllers({
+  router,
+  controllers: [
+    AccountController,
+    AuthController,
+    PostController,
+    RoomController,
+    MessageController,
+  ],
+})
 
 export default router

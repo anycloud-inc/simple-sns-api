@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@anycloud/express-controller@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@anycloud/express-controller/-/express-controller-0.1.1.tgz#7a8a46984318ee11397879e8782f34d7964af612"
+  integrity sha512-LMXIUxE4qV2GjREQywDjIjJBT5gBCpQE2l/yd8lckQkHEDOX9uqBFHa+OXc9NX2MoeKOp6sFoiaXZvDYTYfMBg==
+
 "@apidevtools/json-schema-ref-parser@^9.0.6":
   version "9.0.9"
   resolved "https://registry.yarnpkg.com/@apidevtools/json-schema-ref-parser/-/json-schema-ref-parser-9.0.9.tgz#d720f9256e3609621280584f2b47ae165359268b"
