@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { Controller, Get, Patch, Post } from 'src/lib/controller'
+import { Controller, Get, Patch, Post } from '@anycloud/express-controller'
 import { authService } from 'src/module/auth/auth.service'
 import { accountSerializer } from './account.serializer'
 import { Auth } from 'src/lib/auth'

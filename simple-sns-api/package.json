@@ -17,6 +17,7 @@
     "console": "NODE_OPTIONS=--experimental-repl-await yarn ts-node console.ts"
   },
   "dependencies": {
+    "@anycloud/express-controller": "^0.1.1",
     "@google-cloud/storage": "^5.18.1",
     "argon2": "^0.27.1",
     "axios": "^0.21.1",

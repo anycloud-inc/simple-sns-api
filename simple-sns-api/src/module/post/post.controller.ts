@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { Auth } from 'src/lib/auth'
-import { Controller, Delete, Get, Post } from 'src/lib/controller'
+import { Controller, Delete, Get, Post } from '@anycloud/express-controller'
 import { postSerializer } from './post.serializer'
 import { postService } from './post.service'
 import { Post as PostEntity } from './post.entity'

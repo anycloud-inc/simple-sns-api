@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { Auth } from 'src/lib/auth'
-import { Controller, Get, Post } from 'src/lib/controller'
+import { Controller, Get, Post } from '@anycloud/express-controller'
 import { getPaginationParams } from 'src/lib/request-utils'
 import { roomPolicy } from '../room/room.policy'
 import { messageSerializer } from './message.serializer'
