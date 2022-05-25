@@ -21,7 +21,7 @@ interface CreateViaPostParams {
 
 export const messageService = {
   toOneContents() {
-    return ['user', 'post']
+    return ['user', 'post', 'post.user']
   },
 
   async findLatestMessages(roomIds: string[]): Promise<Message[]> {
